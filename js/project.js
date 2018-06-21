@@ -5,6 +5,7 @@ let theMiddle = {};
 let activity = "";
 let radius = 0;
 let map;
+let markerArr = [];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -180,6 +181,14 @@ function getYelpData() {
         // Log response
         console.log(response);
 
+        // Clear yelp div
+        $("#yelp").text("");
+        // Clear markers
+        for (MARKER in markerArr) {
+            markerArr[MARKER].setMap(null);
+        }
+        markerArr = [];
+
         const labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
         for (i in response.businesses) {
             var lat = response.businesses[i].coordinates.latitude;
@@ -189,6 +198,11 @@ function getYelpData() {
                 map: map,
                 label: labels[i],
             });
+
+            // Push to array
+            markerArr.push(marker);
+
+
 
             var name = response.businesses[i].name;
             var rating = response.businesses[i].rating;
